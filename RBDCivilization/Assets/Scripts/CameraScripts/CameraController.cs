@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
 
 public class CameraController : MonoBehaviour
 {
@@ -25,13 +28,18 @@ public class CameraController : MonoBehaviour
     public Vector3 rotateStartPosition;
     public Vector3 rotateCurrentPosition;
 
+    private LayerMask terrainMsk;
+
+
     // Start is called before the first frame update
     void Start()
     {
         newPosition = transform.position;
         newRotation = transform.rotation;
         newZoom = cameraTransform.localPosition;
+        terrainMsk = LayerMask.GetMask ("Terrain");
     }
+
 
     // Update is called once per frame
     void Update()
@@ -39,6 +47,7 @@ public class CameraController : MonoBehaviour
         HandleMouseInput();
         HandleMovementInput();
     }
+
 
     void HandleMouseInput()
     {
@@ -99,7 +108,23 @@ public class CameraController : MonoBehaviour
 
             newRotation *= Quaternion.Euler(Vector3.up * (-difference.x / 5f));
         }
+
+        if (Input.GetMouseButtonDown (0) == true) 
+        {
+            Plane plane = new Plane (Vector3.up, Vector3.zero);
+            Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+
+            float entry;
+            RaycastHit hit;
+
+            if (plane.Raycast (ray, out entry) == true && Physics.Linecast (cameraTransform.position, ray.GetPoint (entry), out hit, terrainMsk, QueryTriggerInteraction.Collide) == true) 
+            {
+                print(hit.transform.name);
+                //print(hit.transform.name);
+            }
+        }
     }
+
 
     void HandleMovementInput() //Control mediante teclado
     {

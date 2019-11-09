@@ -7,23 +7,29 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
-    [SerializeField] private Transform hexagonPfb, terrainTrf;
-    [SerializeField] private float gridWth, gridHgt, gap;
-    private float hexagonWth, hexagonHgt;
+    [SerializeField] private MeshCollider terrainCld;
+    [SerializeField] private Transform hexagonPfb;
+    [SerializeField] private int gridWth, gridHgt;
+    [SerializeField] private float gap, hexagonWth, hexagonHgt, hexagonScl;
     private Vector3 startPos;
 
 
     // We initialize some variables and add the gap to the hexagons's with and height, we calculate the starting position of the grid, and we finally create it.
     private void Start ()
     {
-        gridWth = terrainTrf.localScale.x * 2;
-        gridHgt = terrainTrf.localScale.z * 2;
-        hexagonWth = hexagonPfb.localScale.x;
-        hexagonHgt = hexagonPfb.localScale.z;
+        hexagonWth *= hexagonScl;
+        hexagonHgt *= hexagonScl;
 
         AddGap ();
         StartPosition ();
         CreateGrid ();
+    }
+
+
+    //
+    private void OnDrawGizmos ()
+    {
+        Gizmos.DrawWireCube (this.transform.position, new Vector3 (gridWth, 1, gridHgt));
     }
 
 
@@ -45,10 +51,12 @@ public class Grid : MonoBehaviour
             offset = hexagonWth / 2;
         }
 
-        float x = -hexagonWth * (gridWth / 2) - offset;
-        float z = +hexagonHgt * 0.75f * (gridHgt / 2);
+        float x = -(gridWth / 2) - offset;
+        float z = +0.75f * (gridHgt / 2);
+        //float x = -hexagonWth * (gridWth / 2) - offset;
+        //float z = +hexagonHgt * 0.75f * (gridHgt / 2);
 
-        startPos = new Vector3 (x, 0, z);
+        startPos = new Vector3 (x, 0.1f, z);
     }
 
 
@@ -64,7 +72,7 @@ public class Grid : MonoBehaviour
         float x = startPos.x + gridPos.x * hexagonWth + offset;
         float z = startPos.z - gridPos.y * hexagonHgt * 0.75f;
 
-        return new Vector3 (x, 0, z);
+        return new Vector3 (x, 0.1f, z);
     }
 
 
@@ -73,14 +81,15 @@ public class Grid : MonoBehaviour
     {
         int hexagonCnt = 1;
 
-        for (int y = 0; y < gridHgt; y += 1) 
+        for (int y = 0; y < gridHgt / hexagonHgt; y += 1) 
         {
-            for (int x = 0; x < gridWth; x += 1)
+            for (int x = 0; x < gridWth / hexagonWth; x += 1)
             {
                 Transform hexagon = Instantiate (hexagonPfb) as Transform;
                 Vector2 gridPos = new Vector2 (x, y);
 
                 hexagon.position = CalculateWorldPosition (gridPos);
+                hexagon.localScale *= hexagonScl;
                 hexagon.parent = this.transform;
                 hexagon.name = "Hexagon" + hexagonCnt;
                 hexagonCnt += 1;
