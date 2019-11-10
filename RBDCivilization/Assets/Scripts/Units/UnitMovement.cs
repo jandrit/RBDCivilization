@@ -69,6 +69,6 @@ public class UnitMovement : MonoBehaviour
 
     public void FindPathTo (Hexagon hex) 
     {
-        path = currentHex.GetPath (hex);
+        //path = currentHex.GetPath (hex);
     }
 }
