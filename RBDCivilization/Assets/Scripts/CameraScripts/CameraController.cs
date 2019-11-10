@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour
     public Vector3 rotateCurrentPosition;
 
     private LayerMask terrainMsk;
+    private UnitMovement[] selectedUnt;
 
 
     // Start is called before the first frame update
@@ -38,14 +39,15 @@ public class CameraController : MonoBehaviour
         newRotation = transform.rotation;
         newZoom = cameraTransform.localPosition;
         terrainMsk = LayerMask.GetMask ("Terrain");
+        selectedUnt = null;
     }
 
 
     // Update is called once per frame
-    void Update()
+    void Update ()
     {
-        HandleMouseInput();
-        HandleMovementInput();
+        HandleMouseInput ();
+        HandleMovementInput ();
     }
 
 
@@ -119,8 +121,29 @@ public class CameraController : MonoBehaviour
 
             if (plane.Raycast (ray, out entry) == true && Physics.Linecast (cameraTransform.position, ray.GetPoint (entry), out hit, terrainMsk, QueryTriggerInteraction.Collide) == true) 
             {
-                print(hit.transform.name);
-                //print(hit.transform.name);
+                Hexagon hex = hit.transform.GetComponent<Hexagon> ();
+                print (hex.name);
+
+                if (hex != null) 
+                {
+                    if (selectedUnt == null)
+                    {
+                        selectedUnt = hex.UnitsPlaced ();
+                    }
+                    else
+                    {
+                        if (hex.GetCapacity () >= selectedUnt.Length) 
+                        {
+                            foreach (UnitMovement u in selectedUnt)
+                            {
+                                u.target = hex.transform;
+                                u.reachedTrg = false;
+                            }
+                            selectedUnt = null;
+                        }
+                    }
+                    print(selectedUnt);
+                }
             }
         }
     }

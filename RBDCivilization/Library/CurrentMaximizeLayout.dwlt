@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 494}
   m_MaxSize: {x: 14004, y: 14044}
   vertical: 0
-  controlID: 3456
+  controlID: 656
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 494}
   m_MaxSize: {x: 10002, y: 14044}
   vertical: 1
-  controlID: 3402
+  controlID: 657
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 222}
   m_MaxSize: {x: 8006, y: 4022}
   vertical: 0
-  controlID: 3377
+  controlID: 631
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -213,7 +213,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: e665fffff0b9ffff
+      m_ExpandedIDs: 98b8ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -300,9 +300,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -32.589844, y: 14.046875, z: -26.390625}
+    m_Target: {x: -45.634766, y: 6.4921875, z: -31.58789}
     speed: 2
-    m_Value: {x: -32.589844, y: 14.046875, z: -26.390625}
+    m_Value: {x: -45.634766, y: 6.4921875, z: -31.58789}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -331,13 +331,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.3877054, y: 0.12386516, z: -0.052655913, w: 0.91191727}
+    m_Target: {x: 0.21747613, y: 0.26545784, z: -0.06159368, w: 0.93725604}
     speed: 2
-    m_Value: {x: 0.38770077, y: 0.12386368, z: -0.052655287, w: 0.9119064}
+    m_Value: {x: 0.21747543, y: 0.26545697, z: -0.061593484, w: 0.937253}
   m_Size:
-    m_Target: 77.3992
+    m_Target: 108.14714
     speed: 2
-    m_Value: 77.3992
+    m_Value: 108.14714
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -456,20 +456,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Models/Buildings
+    - Assets/Prefabs/Units
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Models/Buildings
+  - Assets/Prefabs/Units
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\Aythami\Documents\GitHub\RBDCivilization\RBDCivilization
+  m_LastProjectPath: A:\TOT\FAENA\QUART\SEMESTRE1\IA\PROJECTE2\RBDCivilization\RBDCivilization
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 06360000
-    m_LastClickedID: 13830
-    m_ExpandedIDs: 00000000e8330000da340000ea340000a235000000ca9a3b
+    m_SelectedIDs: 52360000
+    m_LastClickedID: 13906
+    m_ExpandedIDs: 00000000803400007635000086350000e636000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -497,7 +497,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e8330000da340000ea34000000ca9a3b
+    m_ExpandedIDs: 0000000080340000763500008635000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -522,8 +522,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: e665ffff
-    m_LastClickedInstanceID: -39450
+    m_SelectedInstanceIDs: 76aeffff
+    m_LastClickedInstanceID: -20874
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c62300005c300000fc2c0000da30000004400000402f00003435000036390000fc3000000a310000c22d0000be35000000000000
     m_RenameOverlay:
@@ -607,7 +607,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -80122
+  m_LastSelectedObjectID: -18282
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -632,7 +632,7 @@ MonoBehaviour:
   m_MinSize: {x: 277, y: 294}
   m_MaxSize: {x: 4002, y: 8044}
   vertical: 1
-  controlID: 3457
+  controlID: 624
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -652,8 +652,8 @@ MonoBehaviour:
     y: 0
     width: 528
     height: 595
-  m_MinSize: {x: 277, y: 72}
-  m_MaxSize: {x: 4002, y: 4022}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -696,8 +696,8 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_PreviewWindow: {fileID: 0}
-  m_LastInspectedObjectInstanceID: -39450
-  m_LastVerticalScrollValue: 0
+  m_LastInspectedObjectInstanceID: -20874
+  m_LastVerticalScrollValue: 191
 --- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52

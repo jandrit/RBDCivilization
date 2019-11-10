@@ -5,11 +5,8 @@ using UnityEngine;
 
 
 
-namespace SA 
+public class Node
 {
-    public class Node
-    {
-        public int x, y, z;
-        public Vector3 worldPos;
-    }
+    public int x, y, z;
+    public Vector3 worldPos;
 }
