@@ -82,6 +82,7 @@ public class Grid : MonoBehaviour
     private void CreateGrid () 
     {
         int hexagonCnt = 1;
+        Hexagon[,] hexagons = new Hexagon[hexagonsX + 1, hexagonsY + 1];
 
         for (int y = 0; y <= hexagonsY; y += 1) 
         {
@@ -95,42 +96,65 @@ public class Grid : MonoBehaviour
                 hexagon.parent = this.transform;
                 hexagon.name = "Hexagon" + hexagonCnt;
                 hexagonCnt += 1;
+                hexagons[x, y] = hexagon.GetComponent<Hexagon> ();
             }
         }
-
-        Hexagon[] hexagons = this.GetComponentsInChildren<Hexagon> ();
 
         AssignNeighbours (hexagons);
     }
 
 
-    private void AssignNeighbours (Hexagon[] hexagons)
+    private void AssignNeighbours (Hexagon[,] hexagons)
     {
-        int[] positions = new int[] {-hexagonsX - 2, -hexagonsX - 1, +1, +hexagonsX + 2, +hexagonsX + 1, -1};
-        for (int h = 0; h < hexagons.Length; h += 1) 
+        for (int x = 0; x <= hexagonsX; x += 1) 
         {
-            int[] indices = new int[positions.Length];
-
-            for (int p = 0; p < positions.Length; p += 1) 
+            for (int y = 0; y <= hexagonsY; y += 1) 
             {
-                if ((h + positions[p]) > -1 && (h + positions[p]) < hexagons.Length)
+                if (y > 0) 
                 {
-                    indices[p] = h + positions[p];
+                    if (hexagons[x, y - 1].transform.position.x < hexagons[x, y].transform.position.x)
+                    {
+                        hexagons[x, y].neighbours[0] = hexagons[x, y - 1];
+                        if (x != hexagonsX)
+                        {
+                            hexagons[x, y].neighbours[1] = hexagons[x + 1, y - 1];
+                        }
+                    }
+                    else 
+                    {
+                        hexagons[x, y].neighbours[1] = hexagons[x, y - 1];
+                        if (x != 0)
+                        {
+                            hexagons[x, y].neighbours[0] = hexagons[x - 1, y - 1];
+                        }
+                    }
                 }
-                else 
+                if (x != 0) 
                 {
-                    indices[p] = -1;
+                    hexagons[x, y].neighbours[5] = hexagons[x - 1, y];
                 }
-            }
-            for (int i = 0; i < indices.Length; i += 1) 
-            {
-                if (indices[i] == -1)
+                if (x != hexagonsX) 
                 {
-                    hexagons[h].neighbours[i] = null;
+                    hexagons[x, y].neighbours[2] = hexagons[x + 1, y];
                 }
-                else 
+                if (y < hexagonsY)
                 {
-                    hexagons[h].neighbours[i] = hexagons[indices[i]];
+                    if (hexagons[x, y + 1].transform.position.x < hexagons[x, y].transform.position.x)
+                    {
+                        hexagons[x, y].neighbours[4] = hexagons[x, y + 1];
+                        if (x != hexagonsX)
+                        {
+                            hexagons[x, y].neighbours[3] = hexagons[x + 1, y + 1];
+                        }
+                    }
+                    else
+                    {
+                        hexagons[x, y].neighbours[3] = hexagons[x, y + 1];
+                        if (x != 0)
+                        {
+                            hexagons[x, y].neighbours[4] = hexagons[x - 1, y + 1];
+                        }
+                    }
                 }
             }
         }

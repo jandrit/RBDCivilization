@@ -13,6 +13,8 @@ public class UnitMovement : MonoBehaviour
     [SerializeField] private int moveSpd;
     private CharacterController characterCtr;
     private Hexagon currentHex;
+    private Transform feet;
+    private List<Transform> path;
 
 
     // Start is called before the first frame update.
@@ -20,6 +22,8 @@ public class UnitMovement : MonoBehaviour
     {
         reachedTrg = false;
         characterCtr = this.GetComponent<CharacterController> ();
+        feet = this.transform.GetChild (0);
+        path = new List<Transform> ();
     }
 
 
@@ -29,16 +33,25 @@ public class UnitMovement : MonoBehaviour
         while (target == null) 
         {
             target = GameObject.FindGameObjectWithTag("Hexagon").transform;
+            path.Add (target);
         }
 
         if (reachedTrg == false) 
         {
             characterCtr.Move ((target.position - this.transform.position).normalized * moveSpd * Time.deltaTime);
 
-            if (Vector3.Distance (this.transform.position, target.position) < 2)
+            if (Vector3.Distance (feet.position, target.position) < 0.5f)
             {
-                reachedTrg = true;
-                currentHex.AddUnit (this);
+                path.RemoveAt (0);
+                if (path.Count == 0)
+                {
+                    reachedTrg = true;
+                    currentHex.AddUnit (this);
+                }
+                else 
+                {
+                    target = path[0];
+                }
             }
         }
     }
@@ -47,6 +60,15 @@ public class UnitMovement : MonoBehaviour
     //
     private void OnTriggerEnter (Collider other)
     {
-        currentHex = other.GetComponent<Hexagon> ();
+        if (other.tag == "Hexagon")
+        {
+            currentHex = other.GetComponent<Hexagon> ();
+        }
+    }
+
+
+    public void FindPathTo (Hexagon hex) 
+    {
+        path = currentHex.GetPath (hex);
     }
 }

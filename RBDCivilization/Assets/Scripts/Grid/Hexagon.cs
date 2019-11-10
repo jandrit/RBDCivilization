@@ -74,4 +74,11 @@ public class Hexagon : MonoBehaviour
             return result;
         }
     }
+
+
+    /*
+    public List<Transform> GetPath (Hexagon hex) 
+    {
+
+    }*/
 }

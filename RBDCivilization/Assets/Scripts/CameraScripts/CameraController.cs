@@ -134,11 +134,12 @@ public class CameraController : MonoBehaviour
                     {
                         if (hex.GetCapacity () >= selectedUnt.Length) 
                         {
-                            foreach (UnitMovement u in selectedUnt)
+                            selectedUnt[0].FindPathTo (hex);
+                            /*foreach (UnitMovement u in selectedUnt)
                             {
                                 u.target = hex.transform;
                                 u.reachedTrg = false;
-                            }
+                            }*/
                             selectedUnt = null;
                         }
                     }
