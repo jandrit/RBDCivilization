@@ -137,11 +137,6 @@ public class CameraController : MonoBehaviour
                         {
                             selectedUnt[0].FindPathTo (hex);
 
-                            foreach (UnitMovement u in selectedUnt)
-                            {
-                                //u.target = hex.transform;
-                                u.reachedTrg = false;
-                            }
                             selectedUnt = null;
                         }
                     }

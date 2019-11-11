@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class UnitMovement : MonoBehaviour
 {
-    public Transform target;
+    public Vector3 target;
     public bool reachedTrg;
     public Hexagon currentHex;
 
@@ -15,41 +15,34 @@ public class UnitMovement : MonoBehaviour
     //[SerializeField] private UnitSettings stats;
     private CharacterController characterCtr;
     private Transform feet;
-    private List<Transform> path;
-    //private int reach;
-    //private GameObject grid;
+    private List<Vector3> path;
+    private float offsetHexX, offsetHexZ;
 
 
     // Start is called before the first frame update.
     private void Start ()
     {
+        Grid grid = GameObject.FindObjectOfType<Grid> ();
+
         reachedTrg = false;
         characterCtr = this.GetComponent<CharacterController> ();
         feet = this.transform.GetChild (0);
-        path = new List<Transform> ();
-        //reach = (int) stats.speed;
-        //grid = GameObject.FindGameObjectWithTag("Grid");
+        path = new List<Vector3> ();
+        target = GameObject.FindGameObjectWithTag("Hexagon").transform.position;
+        offsetHexX = grid.hexagonWth / 4;
+        offsetHexZ = grid.hexagonHgt / 4;
+
+        path.Add (target);
     }
 
 
     // Update is called once per frame.
     private void Update ()
     {
-        while (target == null) 
-        {
-            target = GameObject.FindGameObjectWithTag("Hexagon").transform;
-
-            if (target != null) 
-            {
-                path.Add (target);
-            }
-        }
-
-        //path.Add (target);
         if (reachedTrg == false) 
         {
-            characterCtr.Move ((target.position - this.transform.position).normalized * moveSpd * Time.deltaTime);
-            if (Vector3.Distance (feet.position, target.position) < 0.5f)
+            characterCtr.Move ((target - this.transform.position).normalized * moveSpd * Time.deltaTime);
+            if (Vector3.Distance (feet.position, target) < 0.5f)
             {
                 path.RemoveAt (0);
 
@@ -81,7 +74,42 @@ public class UnitMovement : MonoBehaviour
     //
     public void FindPathTo (Hexagon hex) 
     {
-        path = currentHex.GetPath (hex);
-        target = path[0];
+        UnitMovement[] unitsHex = this.currentHex.UnitsPlaced ();
+
+        path = this.currentHex.GetPath (hex);
+
+        for (int u = 0; u < unitsHex.Length; u += 1) 
+        {
+            if (u != 0)
+            {
+                Vector3 offset;
+
+                List<Vector3> pathAux = new List<Vector3> ();
+
+                switch (u)
+                {
+                    case 1:
+                        offset = new Vector3 (+offsetHexX, 0, +offsetHexZ);
+
+                        break;
+                    case 2:
+                        offset = new Vector3 (-offsetHexX, 0, +offsetHexZ);
+
+                        break;
+                    case 3:
+                        offset = new Vector3 (+offsetHexX, 0, -offsetHexZ);
+
+                        break;
+                    case 4:
+                        offset = new Vector3 (-offsetHexX, 0, -offsetHexZ);
+
+                        break;
+                }
+
+
+            }
+            unitsHex[u].target = path[0];
+            unitsHex[u].reachedTrg = false;
+        }
     }
 }

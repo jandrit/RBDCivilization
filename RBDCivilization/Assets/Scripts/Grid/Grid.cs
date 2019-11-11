@@ -7,15 +7,17 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+    public float hexagonWth, hexagonHgt;
+    
     [SerializeField] private Transform hexagonPfb;
     [SerializeField] private int gridWth, gridHgt;
-    [SerializeField] private float gap, hexagonWth, hexagonHgt, hexagonScl;
+    [SerializeField] private float gap, hexagonScl;
     private Vector3 startPos;
     private int hexagonsX, hexagonsY;
 
 
     // We initialize some variables and add the gap to the hexagons's with and height, we calculate the starting position of the grid, and we finally create it.
-    private void Start ()
+    private void Awake ()
     {
         hexagonWth *= hexagonScl;
         hexagonHgt *= hexagonScl;
