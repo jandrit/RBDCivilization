@@ -76,9 +76,43 @@ public class Hexagon : MonoBehaviour
     }
 
 
-    /*
+    //
     public List<Transform> GetPath (Hexagon hex) 
     {
+        float checkedDst;
 
-    }*/
+        int bestChoice = 0;
+        float bestDst = Vector3.Distance (this.transform.position, hex.transform.position);
+        List<Transform> result = new List<Transform> ();
+        Hexagon currentHex = this;
+
+        while (bestDst != 0) 
+        {
+            for (int i = 0; i < currentHex.neighbours.Length; i += 1)
+            {
+                if (currentHex.neighbours[i] != null)
+                {
+                    checkedDst = Vector3.Distance (currentHex.neighbours[i].transform.position, hex.transform.position);
+                    print(checkedDst);
+                    if (checkedDst < bestDst)
+                    {
+                        bestChoice = i;
+                        bestDst = checkedDst;
+
+                        /*if (bestDst == 0) 
+                        {
+                            break;
+                        }*/
+                    }
+                }
+            }
+
+            result.Add (currentHex.neighbours[bestChoice].transform);
+
+            currentHex = currentHex.neighbours[bestChoice];
+            print(currentHex.name);
+        }
+
+        return result;
+    }
 }

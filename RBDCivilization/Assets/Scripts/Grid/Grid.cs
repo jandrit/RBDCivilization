@@ -104,6 +104,7 @@ public class Grid : MonoBehaviour
     }
 
 
+    //
     private void AssignNeighbours (Hexagon[,] hexagons)
     {
         for (int x = 0; x <= hexagonsX; x += 1) 

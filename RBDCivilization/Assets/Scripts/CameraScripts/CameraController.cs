@@ -119,38 +119,39 @@ public class CameraController : MonoBehaviour
             float entry;
             RaycastHit hit;
 
-            if (plane.Raycast (ray, out entry) == true && Physics.Linecast (cameraTransform.position, ray.GetPoint (entry), out hit, terrainMsk, QueryTriggerInteraction.Collide) == true) 
+            if (Physics.Raycast (ray, out hit, Mathf.Infinity, terrainMsk, QueryTriggerInteraction.Collide) == true) 
             {
                 Hexagon hex = hit.transform.GetComponent<Hexagon> ();
-                print (hex.name);
+                //print (hex.name);
 
                 if (hex != null) 
                 {
                     if (selectedUnt == null)
                     {
                         selectedUnt = hex.UnitsPlaced ();
+                        //print(selectedUnt[0].name);
                     }
                     else
                     {
-                        if (hex.GetCapacity () >= selectedUnt.Length) 
+                        if (selectedUnt[0].currentHex != hex && hex.GetCapacity () >= selectedUnt.Length) 
                         {
                             selectedUnt[0].FindPathTo (hex);
-                            /*foreach (UnitMovement u in selectedUnt)
+
+                            foreach (UnitMovement u in selectedUnt)
                             {
-                                u.target = hex.transform;
+                                //u.target = hex.transform;
                                 u.reachedTrg = false;
-                            }*/
+                            }
                             selectedUnt = null;
                         }
                     }
-                    print(selectedUnt);
                 }
             }
         }
     }
 
 
-    void HandleMovementInput() //Control mediante teclado
+    void HandleMovementInput () //Control mediante teclado
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
