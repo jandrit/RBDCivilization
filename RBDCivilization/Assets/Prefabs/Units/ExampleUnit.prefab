@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2812a45bb62ef104bbdb8e716bbf060c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {x: 0, y: 0, z: 0}
   reachedTrg: 0
-  moveSpd: 0
+  currentHex: {fileID: 0}
+  moveSpd: 15

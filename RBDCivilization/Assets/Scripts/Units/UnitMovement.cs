@@ -10,6 +10,7 @@ public class UnitMovement : MonoBehaviour
     public Vector3 target;
     public bool reachedTrg;
     public Hexagon currentHex;
+    public int startOft;
 
     [SerializeField] private int moveSpd;
     //[SerializeField] private UnitSettings stats;
@@ -17,6 +18,9 @@ public class UnitMovement : MonoBehaviour
     private Transform feet;
     private List<Vector3> path;
     private float offsetHexX, offsetHexZ;
+    private Vector3[] offsets;
+    private List<CharacterController> collided;
+    private UnitMovement[] allies;
 
 
     // Start is called before the first frame update.
@@ -31,6 +35,9 @@ public class UnitMovement : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Hexagon").transform.position;
         offsetHexX = grid.hexagonWth / 4;
         offsetHexZ = grid.hexagonHgt / 4;
+        offsets = new Vector3[] {Vector3.zero, new Vector3 (+offsetHexX, 0, offsetHexZ), new Vector3 (-offsetHexX, 0, +offsetHexZ), new Vector3 (+offsetHexX, 0, -offsetHexZ), new Vector3 (-offsetHexX, 0, -offsetHexZ)};
+        target += offsets[startOft];
+        collided = new List<CharacterController> ();
 
         path.Add (target);
     }
@@ -48,13 +55,23 @@ public class UnitMovement : MonoBehaviour
 
                 if (path.Count == 0)
                 {
-                    reachedTrg = true;
+                    this.reachedTrg = true;
+                    for (int c = 0; c < this.collided.Count; c += 1) 
+                    {
+                        this.collided[c].enabled = true;
+                    }
 
-                    currentHex.AddUnit (this);
+                    this.collided.Clear ();
+                    this.currentHex.AddUnit (this);
+                    allies = this.currentHex.UnitsPlaced ();
+                    foreach (UnitMovement a in allies) 
+                    {
+                        a.allies = this.allies;
+                    }
                 }
                 else 
                 {
-                    target = path[0];
+                    this.target = path[0];
                 }
             }
         }
@@ -67,6 +84,36 @@ public class UnitMovement : MonoBehaviour
         if (other.tag == "Hexagon")
         {
             currentHex = other.GetComponent<Hexagon> ();
+            //unitsInHex = currentHex.presentUnt;
+        }
+    }
+
+
+    //
+    /*private void OnTriggerStay (Collider other)
+    {
+        if (this.reachedTrg == false && other.tag == "Hexagon" && unitsInHex != currentHex.presentUnt)
+        {
+            this.target = currentHex.transform.position + offsets[currentHex.presentUnt];
+
+            path.RemoveAt (0);
+            path.Add (target);
+        }
+    }*/
+
+
+    //
+    private void OnControllerColliderHit (ControllerColliderHit hit)
+    {
+        if (this.reachedTrg == false && hit.transform.tag == this.tag) 
+        {
+            CharacterController controllerHit = hit.gameObject.GetComponent<CharacterController> ();
+
+            if (controllerHit != null) 
+            {
+                controllerHit.enabled = false;
+                collided.Add (controllerHit);
+            }
         }
     }
 
@@ -74,42 +121,24 @@ public class UnitMovement : MonoBehaviour
     //
     public void FindPathTo (Hexagon hex) 
     {
-        UnitMovement[] unitsHex = this.currentHex.UnitsPlaced ();
+        this.path = this.currentHex.GetPath (hex);
 
-        path = this.currentHex.GetPath (hex);
-
-        for (int u = 0; u < unitsHex.Length; u += 1) 
+        for (int u = 0; u < allies.Length; u += 1) 
         {
             if (u != 0)
             {
-                Vector3 offset;
-
+                Vector3 offset = offsets[u];
                 List<Vector3> pathAux = new List<Vector3> ();
 
-                switch (u)
+                for (int p = 0; p < path.Count; p += 1) 
                 {
-                    case 1:
-                        offset = new Vector3 (+offsetHexX, 0, +offsetHexZ);
-
-                        break;
-                    case 2:
-                        offset = new Vector3 (-offsetHexX, 0, +offsetHexZ);
-
-                        break;
-                    case 3:
-                        offset = new Vector3 (+offsetHexX, 0, -offsetHexZ);
-
-                        break;
-                    case 4:
-                        offset = new Vector3 (-offsetHexX, 0, -offsetHexZ);
-
-                        break;
+                    pathAux.Add (path[p] + offset);
                 }
 
-
+                allies[u].path = pathAux;
             }
-            unitsHex[u].target = path[0];
-            unitsHex[u].reachedTrg = false;
+            allies[u].target = allies[u].path[0];
+            allies[u].reachedTrg = false;
         }
     }
 }

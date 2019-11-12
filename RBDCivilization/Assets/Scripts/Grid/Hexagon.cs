@@ -8,17 +8,17 @@ using UnityEngine;
 public class Hexagon : MonoBehaviour
 {
     public Hexagon[] neighbours;
-    public UnitMovement[] units;
+    public int presentUnt;
 
-    private int presentUnt;
+    private UnitMovement[] units;
 
 
     // .
     private void Awake ()
     {
         neighbours = new Hexagon[6];
-        units = new UnitMovement[5];
         presentUnt = 0;
+        units = new UnitMovement[5];
     }
 
 
@@ -66,9 +66,9 @@ public class Hexagon : MonoBehaviour
         {
             UnitMovement[] result = new UnitMovement[presentUnt];
 
-            for (int u = 0; u < result.Length; u += 1)
+            for (int r = 0; r < result.Length; r += 1)
             {
-                result[u] = units[u];
+                result[r] = units[r];
             }
 
             return result;
@@ -93,16 +93,15 @@ public class Hexagon : MonoBehaviour
                 if (currentHex.neighbours[i] != null)
                 {
                     checkedDst = Vector3.Distance (currentHex.neighbours[i].transform.position, hex.transform.position);
-                    print(checkedDst);
                     if (checkedDst < bestDst)
                     {
                         bestChoice = i;
                         bestDst = checkedDst;
 
-                        /*if (bestDst == 0) 
+                        if (bestDst == 0) 
                         {
                             break;
-                        }*/
+                        }
                     }
                 }
             }
@@ -110,7 +109,6 @@ public class Hexagon : MonoBehaviour
             result.Add (currentHex.neighbours[bestChoice].transform.position);
 
             currentHex = currentHex.neighbours[bestChoice];
-            //print(currentHex.name);
         }
 
         return result;
